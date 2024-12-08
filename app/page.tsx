@@ -1,7 +1,7 @@
 "use client";
 import DateTopbar from "./components/DateTopbar/DateTopbar";
 import SingleTask from "./components/SingleTask/SingleTask";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { todoStore } from "@/store/todoStore";
 import moment from "moment";
 
@@ -13,7 +13,7 @@ export default function Home() {
 
   const { todos, addTask, currentSeletedDate } = todoStore();
 
-  const TasksOfCurrentDate = todos.filter(task => task.date === currentSeletedDate);
+  const TasksOfCurrentDate = useMemo(() => todos.filter(task => task.date === currentSeletedDate), [currentSeletedDate, todos])
  
   const handleAddTask = () => {
     addTask(task, description)
@@ -27,7 +27,7 @@ export default function Home() {
         {/* Top bar for dates */}
         <DateTopbar />
 
-        <div className="px-9 text-lg mb-4 mt-3 font-semibold">{moment(currentSeletedDate).format('dddd')}</div>
+        <div className="px-9 text-lg mb-4 mt-3 font-semibold">{moment(currentSeletedDate).format('dddd') === moment().format('dddd') ? 'Today' : moment(currentSeletedDate).format('dddd')}</div>
 
         {/* Tasks */}
         <div className="px-9 flex-1 overflow-auto flex flex-col space-y-4">

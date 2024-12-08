@@ -14,7 +14,7 @@ const DateTopbar: React.FC = () => {
 
   return (
     <div id="DateTopbar" className="flex flex-col bg-white">
-      <div className="text-lg font-black px-9 pt-4">{selectedDate.weekday}</div>
+      <div className="text-lg font-black px-9 pt-4">Todo list</div>
       <div className="flex">
         {datesWithWeekdays.map((date) => (
           <div

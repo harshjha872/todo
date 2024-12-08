@@ -1,4 +1,5 @@
 import React from "react";
+import { todoStore } from "@/store/todoStore";
 
 export interface Task {
   id: string;
@@ -8,10 +9,14 @@ export interface Task {
   date: string;
 }
 
-const SingleTask = ({ Task } : { Task: Task }) => {
+const SingleTask = ({ Task }: { Task: Task }) => {
+  const { toggleTask } = todoStore();
+
   return (
     <div className="flex bg-white py-3 px-4 rounded-xl shadow-sm">
       <input
+        checked={Task.isCompleted}
+        onChange={() => toggleTask(Task.id)}
         className="
         peer relative appearance-none shrink-0 w-5 h-5  border-2 border-zinc-700 rounded-full mt-1 bg-white
         focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-zinc-400
@@ -34,10 +39,16 @@ const SingleTask = ({ Task } : { Task: Task }) => {
       >
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
-        <div className="ml-4">
-            <div className="font-bold text-lg">{Task.task}</div>
-            <div className="text-[15px] text-zinc-600 mt-1">{Task.description}</div>
+      <div className="ml-4">
+        <div
+          className={`font-bold text-lg ${
+            Task.isCompleted ? "line-through text-gray-500" : ""
+          }`}
+        >
+          {Task.task}
         </div>
+        <div className="text-[15px] text-zinc-600 mt-1">{Task.description}</div>
+      </div>
     </div>
   );
 };
