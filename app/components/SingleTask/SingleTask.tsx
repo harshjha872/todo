@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { todoStore } from "@/store/todoStore";
 import { NotebookPen, CircleX, Trash2 } from "lucide-react";
-import useStore from "@/store/useStore";
 import { iTodoStore } from "@/store/todoStore";
 
 export interface Task {

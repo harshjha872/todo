@@ -2,10 +2,9 @@
 import DateTopbar from "./components/DateTopbar/DateTopbar";
 import SingleTask from "./components/SingleTask/SingleTask";
 import { useEffect, useMemo, useState } from "react";
-import { iTodoStore, todoStore } from "@/store/todoStore";
+import { todoStore } from "@/store/todoStore";
 import moment from "moment";
 import { CircleX, Plus } from 'lucide-react'
-import useStore from "@/store/useStore";
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
