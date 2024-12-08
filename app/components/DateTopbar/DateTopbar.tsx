@@ -13,7 +13,7 @@ const DateTopbar: React.FC = () => {
   const { setCurrentDate } = todoStore()
 
   return (
-    <div id="DateTopbar" className="flex flex-col bg-white rounded-3xl">
+    <div id="DateTopbar" className="flex flex-col bg-white rounded-3xl shadow-2xl shadow-zinc-200">
       <div className="text-lg font-black px-9 pt-4">Todo list</div>
       <div className="flex">
         {datesWithWeekdays.map((date) => (

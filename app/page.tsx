@@ -24,14 +24,14 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen py-4">
-      <div className="flex flex-col bg-zinc-50 h-full w-[580px] mx-auto rounded-3xl">
+      <div className="flex flex-col flex-1 bg-zinc-50 h-full max-w-[580px] mx-auto rounded-3xl">
         {/* Top bar for dates */}
         <DateTopbar />
 
-        <div className="px-9 text-lg mb-4 mt-3 font-semibold">{moment(currentSeletedDate).format('dddd') === moment().format('dddd') ? 'Today' : moment(currentSeletedDate).format('dddd')}</div>
+        <div className="px-9 text-md my-4 font-bold">{moment(currentSeletedDate).format('dddd') === moment().format('dddd') ? 'Today' : moment(currentSeletedDate).format('dddd')}</div>
 
         {/* Tasks */}
-        <div className="px-9 flex-1 overflow-auto flex flex-col space-y-4">
+        <div className="px-9 flex-1 overflow-y-auto flex flex-col space-y-4">
           {TasksOfCurrentDate.map((task) => <SingleTask
             key={task.id}
             Task={task}

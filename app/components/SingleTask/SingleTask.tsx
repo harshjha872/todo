@@ -28,7 +28,7 @@ const SingleTask = ({ Task }: { Task: Task }) => {
 
   return (
     <div className="flex bg-white py-3 px-4 rounded-xl shadow-sm group">
-      <label className="mt-1 cursor-pointer relative">
+      <label className="mt-1 w-[24px] cursor-pointer relative">
         <input
           checked={Task.isCompleted}
           onChange={() => toggleTask(Task.id)}
@@ -54,9 +54,9 @@ const SingleTask = ({ Task }: { Task: Task }) => {
         </span>
       </label>
 
-      <div className="ml-4 w-[85%]">
+      <div className="ml-4 flex-1 overflow-hidden text-ellipsis">
         <div
-          className={`font-bold text-lg ${
+          className={`font-bold text-lg overflow-hidden text-ellipsis ${
             Task.isCompleted ? "line-through text-gray-500" : ""
           }`}
         >
@@ -64,7 +64,7 @@ const SingleTask = ({ Task }: { Task: Task }) => {
         </div>
         <div className="text-[15px] text-zinc-600 mt-1">{Task.description}</div>
       </div>
-      <div className="flex flex-1 justify-center items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className="flex w-[68px] justify-center items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div className="hover:bg-zinc-100 p-2 rounded-full">
           <NotebookPen onClick={() => setInfoModal(true)} size={18} />
         </div>
