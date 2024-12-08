@@ -4,6 +4,7 @@ import SingleTask from "./components/SingleTask/SingleTask";
 import { useEffect, useMemo, useState } from "react";
 import { todoStore } from "@/store/todoStore";
 import moment from "moment";
+import { CircleX, Plus } from 'lucide-react'
 
 export default function Home() {
   const [showmodal, setShowModal] = useState(false);
@@ -22,8 +23,8 @@ export default function Home() {
   };
 
   return (
-    <div className="w-screen h-screen">
-      <div className="flex flex-col bg-zinc-100 h-full w-[580px] mx-auto">
+    <div className="w-screen h-screen py-4">
+      <div className="flex flex-col bg-zinc-50 h-full w-[580px] mx-auto rounded-3xl">
         {/* Top bar for dates */}
         <DateTopbar />
 
@@ -38,12 +39,12 @@ export default function Home() {
         </div>
 
         {/* add task btn */}
-        <div className="flex justify-center item-center py-2">
+        <div className="flex justify-center item-center py-4">
           <div
             onClick={() => setShowModal(true)}
             className="text-2xl cursor-pointer rounded-full h-12 w-12 bg-white shadow-lg flex justify-center items-center"
           >
-            +
+            <Plus />
           </div>
         </div>
 
@@ -57,46 +58,7 @@ export default function Home() {
                   onClick={() => setShowModal(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >
-                  <svg
-                    fill="#000000"
-                    width="18px"
-                    height="18px"
-                    viewBox="0 0 24 24"
-                    id="cross"
-                    data-name="Line Color"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon line-color"
-                  >
-                    <line
-                      id="primary"
-                      x1="19"
-                      y1="19"
-                      x2="5"
-                      y2="5"
-                      style={{
-                        fill: "none",
-                        stroke: "rgb(0, 0, 0)",
-                        strokeLinecap: "round",
-                        strokeLinejoin: "round",
-                        strokeWidth: 2,
-                      }}
-                    ></line>
-                    <line
-                      id="primary-2"
-                      data-name="primary"
-                      x1="19"
-                      y1="5"
-                      x2="5"
-                      y2="19"
-                      style={{
-                        fill: "none",
-                        stroke: "rgb(0, 0, 0)",
-                        strokeLinecap: "round",
-                        strokeLinejoin: "round",
-                        strokeWidth: 2,
-                      }}
-                    ></line>
-                  </svg>
+                  <CircleX />
                 </button>
               </div>
 

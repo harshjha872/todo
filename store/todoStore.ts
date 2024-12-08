@@ -6,6 +6,7 @@ export interface iTodoStore {
   todos: Array<Task>;
   currentSeletedDate: string;
   addTask: (task: string, description: string) => void;
+  editTask: (id: string, task: string, description: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
   setCurrentDate: (date: string) => void;
@@ -26,6 +27,12 @@ export const todoStore = create<iTodoStore>((set) => ({
           date: state.currentSeletedDate,
         },
       ],
+    })),
+  editTask: (id, task, description) =>
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, task, description } : todo
+      ),
     })),
   toggleTask: (id) =>
     set((state) => ({

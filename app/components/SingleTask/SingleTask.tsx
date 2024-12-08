@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { todoStore } from "@/store/todoStore";
+import { NotebookPen, CircleX, Trash2 } from "lucide-react";
 
 export interface Task {
   id: string;
@@ -10,36 +11,50 @@ export interface Task {
 }
 
 const SingleTask = ({ Task }: { Task: Task }) => {
-  const { toggleTask } = todoStore();
+  const [infoModal, setInfoModal] = useState(false);
+  const [showWarning, setshowWarning] = useState(false);
+  const [editTaskInput, seteditTaskInput] = useState(Task.task);
+  const [editDescription, setEditDescription] = useState(Task.description);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const { toggleTask, editTask, deleteTask } = todoStore();
+
+  const handleEditTaskUpdate = () => {
+    editTask(Task.id, editTaskInput, editDescription);
+  };
+
+  const handleDeleteTask = () => {
+    deleteTask(Task.id);
+  };
 
   return (
-    <div className="flex bg-white py-3 px-4 rounded-xl shadow-sm">
-      <input
-        checked={Task.isCompleted}
-        onChange={() => toggleTask(Task.id)}
-        className="
-        peer relative appearance-none shrink-0 w-5 h-5  border-2 border-zinc-700 rounded-full mt-1 bg-white
-        focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-zinc-400
-        checked:bg-zinc-900 checked:border-0 
-        disabled:border-steel-400 disabled:bg-steel-400
-        flex justify-center items-center
-      "
-        type="checkbox"
-        id="checkbox"
-      />
-      <svg
-        className="absolute w-3 h-3 pointer-events-none hidden peer-checked:block stroke-white mt-2 ml-1 outline-none"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      <div className="ml-4">
+    <div className="flex bg-white py-3 px-4 rounded-xl shadow-sm group">
+      <label className="mt-1 cursor-pointer relative">
+        <input
+          checked={Task.isCompleted}
+          onChange={() => toggleTask(Task.id)}
+          type="checkbox"
+          className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-zinc-800 checked:border-zinc-800"
+          id="check-custom-style"
+        />
+        <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-0 left-0 transform mt-[5px] ml-[5px]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-3.5 w-3.5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="1"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </span>
+      </label>
+
+      <div className="ml-4 w-[85%]">
         <div
           className={`font-bold text-lg ${
             Task.isCompleted ? "line-through text-gray-500" : ""
@@ -49,6 +64,97 @@ const SingleTask = ({ Task }: { Task: Task }) => {
         </div>
         <div className="text-[15px] text-zinc-600 mt-1">{Task.description}</div>
       </div>
+      <div className="flex flex-1 justify-center items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="hover:bg-zinc-100 p-2 rounded-full">
+          <NotebookPen onClick={() => setInfoModal(true)} size={18} />
+        </div>
+        <div className="hover:bg-red-100 p-2 rounded-full">
+          <Trash2 size={18} onClick={() => setDeleteModal(true)} color="red" />
+        </div>
+      </div>
+
+      {/* Edt task modal */}
+      {infoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+            <div className="flex justify-between items-center border-b pb-2">
+              <h2 className="text-lg font-semibold">Edit task</h2>
+              <button
+                onClick={() => setInfoModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <CircleX />
+              </button>
+            </div>
+
+            <div className="my-2">Task*</div>
+            <input
+              required
+              className="border rounded-md w-full px-2 py-1"
+              placeholder="Add task here..."
+              onChange={(e) => seteditTaskInput(e.target.value)}
+              value={editTaskInput}
+            />
+            {showWarning && (
+              <div className="text-red-600 text-xs">task cannot be empty</div>
+            )}
+            <div className="my-2">Description</div>
+            <input
+              className="border rounded-md w-full  px-2 py-1"
+              placeholder="Add description..."
+              onChange={(e) => setEditDescription(e.target.value)}
+              value={editDescription}
+            />
+
+            <div className="mt-6 flex justify-end space-x-2">
+              <button
+                onClick={() => {
+                  if (editTaskInput === "") {
+                    setshowWarning(true);
+                  } else {
+                    handleEditTaskUpdate();
+                    setshowWarning(false);
+                    setInfoModal(false);
+                  }
+                }}
+                className="px-4 py-1 bg-zinc-100  rounded hover:bg-zinc-200"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete task Modal */}
+      {deleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+            <div className="flex justify-between items-center border-b pb-2">
+              <h2 className="text-lg font-semibold">Delete task</h2>
+              <button
+                onClick={() => setDeleteModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <CircleX />
+              </button>
+            </div>
+
+            <div className="text-xl mt-6">
+              Are you sure you want to delete this task?
+            </div>
+
+            <div className="mt-6 flex justify-end space-x-2">
+              <button
+                onClick={() => handleDeleteTask()}
+                className="px-4 py-1 bg-red-100  rounded hover:bg-red-400"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
