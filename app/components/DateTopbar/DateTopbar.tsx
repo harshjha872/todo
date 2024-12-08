@@ -3,14 +3,15 @@
 import moment from "moment";
 import { useMemo } from "react";
 import { useState } from "react";
-import { todoStore } from "@/store/todoStore";
+import { iTodoStore, todoStore } from "@/store/todoStore";
+import useStore from "@/store/useStore";
 
 const DateTopbar: React.FC = () => {
   const today = moment();
   const datesWithWeekdays = useMemo(() => getDates(today, 3), []);
   const [selectedDate, setSelectedDate] = useState(datesWithWeekdays[3]);
 
-  const { setCurrentDate } = todoStore()
+  const setCurrentDate = todoStore((state:iTodoStore) => state.setCurrentDate) 
 
   return (
     <div id="DateTopbar" className="flex flex-col bg-white rounded-3xl shadow-2xl shadow-zinc-200">
