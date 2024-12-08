@@ -1,7 +1,7 @@
 "use client";
 import DateTopbar from "./components/DateTopbar/DateTopbar";
 import SingleTask from "./components/SingleTask/SingleTask";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { todoStore } from "@/store/todoStore";
 import moment from "moment";
 import { CircleX, Plus } from 'lucide-react'
