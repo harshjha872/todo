@@ -1,30 +1,30 @@
 import { create } from "zustand";
 import moment from "moment";
-
-export interface Task {
-    id:string
-    task:string
-    description:string
-    isCompleted: boolean
-    date: string
-}
+import { Task } from "@/app/components/SingleTask/SingleTask";
 
 export interface iTodoStore {
   todos: Array<Task>;
   currentSeletedDate: string;
-  addTask: (task: string, description: string, date: string) => void;
+  addTask: (task: string, description: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
+  setCurrentDate: (date: string) => void;
 }
 
 export const todoStore = create<iTodoStore>((set) => ({
   todos: [],
-  currentSeletedDate: moment().format('YYYY-MM-DD'),
-  addTask: (task, description, date) =>
+  currentSeletedDate: moment().format("YYYY-MM-DD"),
+  addTask: (task, description) =>
     set((state) => ({
       todos: [
         ...state.todos,
-        { id: uid(), task, description, isCompleted: false, date: date },
+        {
+          id: uid(),
+          task,
+          description,
+          isCompleted: false,
+          date: state.currentSeletedDate,
+        },
       ],
     })),
   toggleTask: (id) =>
@@ -35,6 +35,7 @@ export const todoStore = create<iTodoStore>((set) => ({
     })),
   deleteTask: (id) =>
     set((state) => ({ todos: state.todos.filter((task) => task.id !== id) })),
+  setCurrentDate: (date: string) => set(() => ({ currentSeletedDate: date })),
 }));
 
 //generate unique Id
